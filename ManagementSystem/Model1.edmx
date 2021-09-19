@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AssociateDetails">
+          <Key>
+            <PropertyRef Name="associate_id" />
+          </Key>
+          <Property Name="associate_id" Type="int" Nullable="false" />
+          <Property Name="associate_name" Type="varchar" MaxLength="50" />
+          <Property Name="training_module_id" Type="varchar" MaxLength="11" />
+          <Property Name="doj" Type="date" />
+          <Property Name="loc" Type="varchar" MaxLength="50" />
+          <Property Name="phno" Type="varchar" MaxLength="10" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="BatchDetails">
+          <Key>
+            <PropertyRef Name="training_module_id" />
+          </Key>
+          <Property Name="training_module_id" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="business_unit_id" Type="int" />
+          <Property Name="startdate" Type="date" />
+          <Property Name="enddate" Type="date" />
+        </EntityType>
+        <EntityType Name="TrainerDetails">
+          <Key>
+            <PropertyRef Name="trainer_id" />
+          </Key>
+          <Property Name="trainer_id" Type="int" Nullable="false" />
+          <Property Name="trainer_name" Type="varchar" MaxLength="50" />
+          <Property Name="training_module_id" Type="varchar" MaxLength="11" />
+          <Property Name="business_unit_name" Type="varchar" MaxLength="50" />
+          <Property Name="phno" Type="varchar" MaxLength="10" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TrainingModule">
+          <Key>
+            <PropertyRef Name="business_unit_id" />
+          </Key>
+          <Property Name="business_unit_id" Type="int" Nullable="false" />
+          <Property Name="business_unit_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Associate__train__29221CFB">
+          <End Role="BatchDetails" Type="Self.BatchDetails" Multiplicity="0..1" />
+          <End Role="AssociateDetails" Type="Self.AssociateDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchDetails">
+              <PropertyRef Name="training_module_id" />
+            </Principal>
+            <Dependent Role="AssociateDetails">
+              <PropertyRef Name="training_module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BatchDeta__busin__1EA48E88">
+          <End Role="TrainingModule" Type="Self.TrainingModule" Multiplicity="0..1" />
+          <End Role="BatchDetails" Type="Self.BatchDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainingModule">
+              <PropertyRef Name="business_unit_id" />
+            </Principal>
+            <Dependent Role="BatchDetails">
+              <PropertyRef Name="business_unit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK__TrainerDe__busin__2645B050' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK__TrainerDe__busin__2645B050" />-->
+        <Association Name="FK__TrainerDe__train__25518C17">
+          <End Role="BatchDetails" Type="Self.BatchDetails" Multiplicity="0..1" />
+          <End Role="TrainerDetails" Type="Self.TrainerDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchDetails">
+              <PropertyRef Name="training_module_id" />
+            </Principal>
+            <Dependent Role="TrainerDetails">
+              <PropertyRef Name="training_module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ManagementSystemModelStoreContainer">
+          <EntitySet Name="AssociateDetails" EntityType="Self.AssociateDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BatchDetails" EntityType="Self.BatchDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainerDetails" EntityType="Self.TrainerDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainingModule" EntityType="Self.TrainingModule" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Associate__train__29221CFB" Association="Self.FK__Associate__train__29221CFB">
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+            <End Role="AssociateDetails" EntitySet="AssociateDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BatchDeta__busin__1EA48E88" Association="Self.FK__BatchDeta__busin__1EA48E88">
+            <End Role="TrainingModule" EntitySet="TrainingModule" />
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerDe__train__25518C17" Association="Self.FK__TrainerDe__train__25518C17">
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+            <End Role="TrainerDetails" EntitySet="TrainerDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AssociateDetail">
+          <Key>
+            <PropertyRef Name="associate_id" />
+          </Key>
+          <Property Name="associate_id" Type="Int32" Nullable="false" />
+          <Property Name="associate_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="training_module_id" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="doj" Type="DateTime" Precision="0" />
+          <Property Name="loc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BatchDetail" Relationship="Self.FK__Associate__train__29221CFB" FromRole="AssociateDetails" ToRole="BatchDetails" />
+        </EntityType>
+        <EntityType Name="BatchDetail">
+          <Key>
+            <PropertyRef Name="training_module_id" />
+          </Key>
+          <Property Name="training_module_id" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="business_unit_id" Type="Int32" />
+          <Property Name="startdate" Type="DateTime" Precision="0" />
+          <Property Name="enddate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="AssociateDetails" Relationship="Self.FK__Associate__train__29221CFB" FromRole="BatchDetails" ToRole="AssociateDetails" />
+          <NavigationProperty Name="TrainingModule" Relationship="Self.FK__BatchDeta__busin__1EA48E88" FromRole="BatchDetails" ToRole="TrainingModule" />
+          <NavigationProperty Name="TrainerDetails" Relationship="Self.FK__TrainerDe__train__25518C17" FromRole="BatchDetails" ToRole="TrainerDetails" />
+        </EntityType>
+        <EntityType Name="TrainerDetail">
+          <Key>
+            <PropertyRef Name="trainer_id" />
+          </Key>
+          <Property Name="trainer_id" Type="Int32" Nullable="false" />
+          <Property Name="trainer_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="training_module_id" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="business_unit_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BatchDetail" Relationship="Self.FK__TrainerDe__train__25518C17" FromRole="TrainerDetails" ToRole="BatchDetails" />
+        </EntityType>
+        <EntityType Name="TrainingModule">
+          <Key>
+            <PropertyRef Name="business_unit_id" />
+          </Key>
+          <Property Name="business_unit_id" Type="Int32" Nullable="false" />
+          <Property Name="business_unit_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BatchDetails" Relationship="Self.FK__BatchDeta__busin__1EA48E88" FromRole="TrainingModule" ToRole="BatchDetails" />
+        </EntityType>
+        <Association Name="FK__Associate__train__29221CFB">
+          <End Role="BatchDetails" Type="Self.BatchDetail" Multiplicity="0..1" />
+          <End Role="AssociateDetails" Type="Self.AssociateDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchDetails">
+              <PropertyRef Name="training_module_id" />
+            </Principal>
+            <Dependent Role="AssociateDetails">
+              <PropertyRef Name="training_module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BatchDeta__busin__1EA48E88">
+          <End Role="TrainingModule" Type="Self.TrainingModule" Multiplicity="0..1" />
+          <End Role="BatchDetails" Type="Self.BatchDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainingModule">
+              <PropertyRef Name="business_unit_id" />
+            </Principal>
+            <Dependent Role="BatchDetails">
+              <PropertyRef Name="business_unit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainerDe__train__25518C17">
+          <End Role="BatchDetails" Type="Self.BatchDetail" Multiplicity="0..1" />
+          <End Role="TrainerDetails" Type="Self.TrainerDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchDetails">
+              <PropertyRef Name="training_module_id" />
+            </Principal>
+            <Dependent Role="TrainerDetails">
+              <PropertyRef Name="training_module_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ManagementSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AssociateDetails" EntityType="Self.AssociateDetail" />
+          <EntitySet Name="BatchDetails" EntityType="Self.BatchDetail" />
+          <EntitySet Name="TrainerDetails" EntityType="Self.TrainerDetail" />
+          <EntitySet Name="TrainingModules" EntityType="Self.TrainingModule" />
+          <AssociationSet Name="FK__Associate__train__29221CFB" Association="Self.FK__Associate__train__29221CFB">
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+            <End Role="AssociateDetails" EntitySet="AssociateDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BatchDeta__busin__1EA48E88" Association="Self.FK__BatchDeta__busin__1EA48E88">
+            <End Role="TrainingModule" EntitySet="TrainingModules" />
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainerDe__train__25518C17" Association="Self.FK__TrainerDe__train__25518C17">
+            <End Role="BatchDetails" EntitySet="BatchDetails" />
+            <End Role="TrainerDetails" EntitySet="TrainerDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ManagementSystemModelStoreContainer" CdmEntityContainer="ManagementSystemEntities">
+          <EntitySetMapping Name="AssociateDetails">
+            <EntityTypeMapping TypeName="ManagementSystemModel.AssociateDetail">
+              <MappingFragment StoreEntitySet="AssociateDetails">
+                <ScalarProperty Name="associate_id" ColumnName="associate_id" />
+                <ScalarProperty Name="associate_name" ColumnName="associate_name" />
+                <ScalarProperty Name="training_module_id" ColumnName="training_module_id" />
+                <ScalarProperty Name="doj" ColumnName="doj" />
+                <ScalarProperty Name="loc" ColumnName="loc" />
+                <ScalarProperty Name="phno" ColumnName="phno" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BatchDetails">
+            <EntityTypeMapping TypeName="ManagementSystemModel.BatchDetail">
+              <MappingFragment StoreEntitySet="BatchDetails">
+                <ScalarProperty Name="training_module_id" ColumnName="training_module_id" />
+                <ScalarProperty Name="business_unit_id" ColumnName="business_unit_id" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainerDetails">
+            <EntityTypeMapping TypeName="ManagementSystemModel.TrainerDetail">
+              <MappingFragment StoreEntitySet="TrainerDetails">
+                <ScalarProperty Name="trainer_id" ColumnName="trainer_id" />
+                <ScalarProperty Name="trainer_name" ColumnName="trainer_name" />
+                <ScalarProperty Name="training_module_id" ColumnName="training_module_id" />
+                <ScalarProperty Name="business_unit_name" ColumnName="business_unit_name" />
+                <ScalarProperty Name="phno" ColumnName="phno" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainingModules">
+            <EntityTypeMapping TypeName="ManagementSystemModel.TrainingModule">
+              <MappingFragment StoreEntitySet="TrainingModule">
+                <ScalarProperty Name="business_unit_id" ColumnName="business_unit_id" />
+                <ScalarProperty Name="business_unit_name" ColumnName="business_unit_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
